@@ -68,27 +68,27 @@ std::map<int, std::vector< std::vector< std::string > > > petsReading(const std:
     return pets;
 }
 
-cv::Mat H = (cv::Mat_<double>(3, 3) << -2.24449, -8.3239, 1146.4,
-    -0.913708, -10.0553, 1058.36,
-    -0.00251937, -0.0164418, 1);
+//cv::Mat H = (cv::Mat_<double>(3, 3) << -2.24449, -8.3239, 1146.4,
+//    -0.913708, -10.0553, 1058.36,
+//    -0.00251937, -0.0164418, 1);
+//
+//cv::Mat H_inv = H.inv();
 
-cv::Mat H_inv = H.inv();
+//void calcProjection(const cv::Point2f& point, double& x, double& y)
+//{
+//    x = (point.x * H.at<double>(0, 0) + point.y * H.at<double>(0, 1) + H.at<double>(0, 2)) /
+//        (point.x * H.at<double>(2, 0) + point.y * H.at<double>(2, 1) + H.at<double>(2, 2));
+//    y = (point.x * H.at<double>(1, 0) + point.y * H.at<double>(1, 1) + H.at<double>(1, 2)) /
+//        (point.x * H.at<double>(2, 0) + point.y * H.at<double>(2, 1) + H.at<double>(2, 2));
+//}
 
-void calcProjection(const cv::Point2f& point, double& x, double& y)
-{
-    x = (point.x * H.at<double>(0, 0) + point.y * H.at<double>(0, 1) + H.at<double>(0, 2)) /
-        (point.x * H.at<double>(2, 0) + point.y * H.at<double>(2, 1) + H.at<double>(2, 2));
-    y = (point.x * H.at<double>(1, 0) + point.y * H.at<double>(1, 1) + H.at<double>(1, 2)) /
-        (point.x * H.at<double>(2, 0) + point.y * H.at<double>(2, 1) + H.at<double>(2, 2));
-}
-
-void calcInvProjection(const cv::Point2f& point, double& x, double& y)
-{
-    x = (point.x * H_inv.at<double>(0, 0) + point.y * H_inv.at<double>(0, 1) + H_inv.at<double>(0, 2)) /
-        (point.x * H_inv.at<double>(2, 0) + point.y * H_inv.at<double>(2, 1) + H_inv.at<double>(2, 2));
-    y = (point.x * H_inv.at<double>(1, 0) + point.y * H_inv.at<double>(1, 1) + H_inv.at<double>(1, 2)) /
-        (point.x * H_inv.at<double>(2, 0) + point.y * H_inv.at<double>(2, 1) + H_inv.at<double>(2, 2));
-}
+//void calcInvProjection(const cv::Point2f& point, double& x, double& y)
+//{
+//    x = (point.x * H_inv.at<double>(0, 0) + point.y * H_inv.at<double>(0, 1) + H_inv.at<double>(0, 2)) /
+//        (point.x * H_inv.at<double>(2, 0) + point.y * H_inv.at<double>(2, 1) + H_inv.at<double>(2, 2));
+//    y = (point.x * H_inv.at<double>(1, 0) + point.y * H_inv.at<double>(1, 1) + H_inv.at<double>(1, 2)) /
+//        (point.x * H_inv.at<double>(2, 0) + point.y * H_inv.at<double>(2, 1) + H_inv.at<double>(2, 2));
+//}
 
 cv::Mat mosaic(const cv::Mat& img1, const cv::Mat& img2)
 {
@@ -103,7 +103,7 @@ int main(int argc, char** argv)
     JPDAFTracker::TrackerParam params;
     params.read(std::string(argv[1]));
     std::map<int, std::vector< std::vector< std::string > > > detections = petsReading(argv[2]);
-    cv::Mat planView = cv::imread("PlanView.png");
+//    cv::Mat planView = cv::imread("PlanView.png");
     
     std::vector<std::string> fileNames;
     std::string path(argv[3]);
@@ -120,9 +120,10 @@ int main(int argc, char** argv)
     std::vector< std::vector < std::string > > curr;
     std::vector<JPDAFTracker::Detection> dets;
 
-    cv::Mat image, trackingImg, plan;
+//    cv::Mat image, trackingImg, plan;
+    cv::Mat image, trackingImg;
     std::vector<cv::Rect> rects;
-    std::vector<cv::Point2f> points;
+//    std::vector<cv::Point2f> points;
 
     const double& milliseconds = 1000 / 7;
 
@@ -132,7 +133,7 @@ int main(int argc, char** argv)
     for (size_t i = 0; i < detections.size(); ++i)
     {
         rects.clear();
-        points.clear();
+//        points.clear();
         dets.clear();
         image = cv::imread(fileNames[currFileInd++]);
         trackingImg = image.clone();
@@ -148,9 +149,9 @@ int main(int argc, char** argv)
 
             rects.push_back(rect);
 
-            points.emplace_back(rect.x + (rect.width >> 1), rect.y + rect.height);
-            double x = 0, y = 0;
-            calcProjection(cv::Point2f(rect.x + (rect.width >> 1), rect.y + rect.height), x, y);
+//            points.emplace_back(rect.x + (rect.width >> 1), rect.y + rect.height);
+//            double x = 0, y = 0;
+//            calcProjection(cv::Point2f(rect.x + (rect.width >> 1), rect.y + rect.height), x, y);
             dets.emplace_back(rect.x + (rect.width >> 1), rect.y + (rect.height >> 1), rect.width, rect.height);
 
             cv::rectangle(image, rect, cv::Scalar(0, 0, 255), 3);
