@@ -49,27 +49,27 @@ namespace JPDAFTracker
     public:
       inline const Eigen::Matrix2f getS() const
       {
-	return S;
+          return S;
       }
       const cv::Point getLastPrediction() const
       {
-	return last_prediction;
+          return last_prediction;
       }
       inline const Eigen::Vector2f getLastPredictionEigen() const
       {
-	return last_prediction_eigen;
+          return last_prediction_eigen;
       }
       inline const float getEntropy() const
       {
-	return entropy;
+          return entropy;
       }
       void setDt(const double& dt)
       {
-	A(4) = A(14) = dt;
+          A(4) = A(14) = dt;
       }
       const Eigen::Vector4f getUpdate()
       {
-	return x_filter;
+          return x_filter;
       }
     private:
       Eigen::Matrix4f A; //Evolution state matrix
