@@ -26,7 +26,10 @@ endif(HAVE_FILESYSTEM)
 
 include_directories( src )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories( ${EIGEN3_INCLUDE_DIR} )
+
+message(${OpenCV_INCLUDE_DIRS})
+message(${EIGEN3_INCLUDE_DIR})
 
 file(GLOB_RECURSE tracker_SRC "src/*.cpp")
 file(GLOB_RECURSE tracker_INC "src/*.h")
@@ -35,7 +38,8 @@ add_executable(${execName} ${tracker_SRC} ${tracker_INC})
 if (MSVC)
     set(LIBS ${OpenCV_LIBS})
 else(MSVC)
-    set(LIBS ${OpenCV_LIBS} stdc++fs)
+    # set(LIBS ${OpenCV_LIBS} stdc++fs)
+    set(LIBS ${OpenCV_LIBS})
 endif(MSVC)
 
 TARGET_LINK_LIBRARIES(${execName} ${LIBS})
